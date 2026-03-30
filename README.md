@@ -526,3 +526,118 @@ void loop(){
 
 ```
 Este código convierte un número binario de 4 bits en su equivalente hexadecimal y lo muestra en un display de 7 segmentos utilizando Arduino. Primero se declaran cuatro variables llamadas A, B, C y D, las cuales representan los bits de entrada provenientes de un DIP switch, donde A es el bit más significativo y D el menos significativo. En la función setup() se configuran los pines 13, 12, 11 y 10 como entradas, ya que allí se conectan los switches que generan el número binario, y los pines 8, 7, 6, 5, 4, 3 y 2 como salidas, porque controlan cada uno de los segmentos del display de 7 segmentos. Luego, en la función loop(), que se ejecuta continuamente, el Arduino lee el estado de cada uno de los pines de entrada con digitalRead, obteniendo valores de 0 o 1 según la posición de cada switch, lo que forma un número binario entre 0000 y 1111. Después de leer estos valores, el programa utiliza una serie de condiciones if y else if para comparar la combinación de A, B, C y D con todos los posibles casos binarios; cada condición representa un número distinto, por ejemplo 0000 corresponde a 0, 0001 a 1, y así sucesivamente hasta 1111 que corresponde a F en hexadecimal. Cuando se cumple una condición, se ejecutan varias instrucciones digitalWrite que envían señales HIGH o LOW a los pines de salida, encendiendo o apagando los segmentos necesarios del display para formar el número o letra correspondiente. De esta manera, cada combinación binaria activa un patrón específico de segmentos que permite visualizar correctamente los valores del 0 al 9 y de la A a la F. Finalmente, el último else cubre el caso restante, asegurando que siempre se muestre un valor válido. En resumen, el código toma una entrada binaria de 4 bits, la interpreta mediante condiciones lógicas y controla un display de 7 segmentos para mostrar su equivalente en hexadecimal de forma visual.
+
+ 
+
+# 3. SEMAFORO VIAL CON TIEMPOS
+
+## Simulación en Tinkercad
+
+https://www.tinkercad.com/things/9zKmpwO6POz-semaforo?sharecode=DL5nbw0LOcujEC4UHv5PlYX-0HmhdZAcF_ATla-rVkM
+
+---
+
+## Base
+
+* Arduino Uno R3
+* Breadboard Small
+* LED (3 unidades)
+* Resistor (3 unidades)
+* 200 Ω para LEDS
+
+![GITI7](https://github.com/DavidM2708/DavidM2708-Circuitos_Mesa_Maldonado/raw/8366db2bc88715399dd5d493210f420e158c2c1b/GITI7.png)
+![GITI6](https://github.com/DavidM2708/DavidM2708-Circuitos_Mesa_Maldonado/raw/8366db2bc88715399dd5d493210f420e158c2c1b/GITI6.png)
+
+
+---
+
+## Explicación del montaje
+
+Los tres cables de colores (rojo, amarillo y verde) se colocaron para conectar cada LED a un pin digital diferente de Arduino Uno y así poder controlarlos de manera independiente desde el código. Cada cable lleva la señal eléctrica desde un pin del Arduino hasta el ánodo (pata positiva) de cada LED, permitiendo que cuando el programa active ese pin, circule corriente y el LED correspondiente se encienda. Esto se hace porque cada LED representa una salida distinta y el Arduino necesita enviar una señal separada a cada uno para decidir cuál encender según la lógica programada.
+
+
+![GITI5](https://github.com/DavidM2708/DavidM2708-Circuitos_Mesa_Maldonado/raw/8366db2bc88715399dd5d493210f420e158c2c1b/GITI5.png)
+
+
+El cable negro se colocó para conectar el lado negativo del circuito a GND (tierra), cerrando el recorrido de la corriente. Después de que la energía sale del pin digital, pasa por el LED y por la resistencia de 220 Ω, y necesita regresar al Arduino para completar el circuito; ese retorno se hace a través del cable negro. Sin esa conexión a tierra, la corriente no tendría camino de regreso y los LEDs no podrían encenderse. En resumen, los cables de colores llevan la señal de salida y el cable negro permite el retorno de corriente para que el circuito funcione correctamente.
+
+![GITI4](https://github.com/DavidM2708/DavidM2708-Circuitos_Mesa_Maldonado/raw/8366db2bc88715399dd5d493210f420e158c2c1b/GITI4.png)
+
+---
+
+## Código
+
+```cpp id="6w3h4k"
+int rojo=13;
+int amarillo=12;
+int verde=11;
+
+void setup()
+{
+  pinMode(rojo, OUTPUT);
+  pinMode(amarillo, OUTPUT);
+  pinMode(verde, OUTPUT);
+}
+ 
+void loop()
+{
+  digitalWrite(rojo, HIGH);
+  digitalWrite(amarillo, LOW);
+  digitalWrite(verde, LOW);
+  delay(6000);
+
+  digitalWrite(verde, HIGH);
+  digitalWrite(rojo, LOW);
+  digitalWrite(amarillo, LOW);
+  delay(4000);
+
+  digitalWrite(amarillo, HIGH);
+  digitalWrite(verde, LOW);
+  digitalWrite(rojo, LOW);
+  delay(2000);
+}
+```
+
+---
+
+## Explicación del código
+
+Este código controla tres LEDs conectados a Arduino Uno simulando el funcionamiento básico de un semáforo. Primero se crean tres variables: rojo = 13, amarillo = 12 y verde = 11, donde cada una guarda el número del pin digital al que está conectado cada LED. Luego, dentro de setup(), se usa pinMode(..., OUTPUT) para indicar que esos tres pines funcionarán como salidas, es decir, Arduino enviará señal eléctrica por ellos para encender o apagar los LEDs. Después, en loop(), que se repite continuamente, se programa la secuencia del semáforo: primero se enciende el LED rojo con digitalWrite(rojo, HIGH) mientras amarillo y verde permanecen apagados con LOW, y se mantiene así durante 6 segundos con delay(6000). Luego se enciende el LED verde, se apaga el rojo y el amarillo, y permanece encendido durante 4 segundos con delay(4000). Finalmente se enciende el LED amarillo, se apagan rojo y verde, y permanece encendido durante 2 segundos con delay(2000). Al terminar esta secuencia, el ciclo vuelve a comenzar automáticamente, logrando una repetición continua del comportamiento de un semáforo.
+
+---
+
+## Funcionamiento
+
+### Led Verde
+
+![GITI3](https://github.com/DavidM2708/DavidM2708-Circuitos_Mesa_Maldonado/raw/8366db2bc88715399dd5d493210f420e158c2c1b/GITI3.png)
+
+### Led Amarillo
+
+![GITI2](https://github.com/DavidM2708/DavidM2708-Circuitos_Mesa_Maldonado/raw/8366db2bc88715399dd5d493210f420e158c2c1b/GITI2.png)
+
+### Led Rojo
+
+![GITI1](https://github.com/DavidM2708/DavidM2708-Circuitos_Mesa_Maldonado/raw/8366db2bc88715399dd5d493210f420e158c2c1b/GITI1.png)
+
+
+---
+
+## ¿Cómo funciona?
+
+El Arduino envía señales eléctricas por sus pines digitales:
+
+* Cuando manda HIGH (5V) → el LED enciende 💡
+* Cuando manda LOW (0V) → el LED se apaga
+
+El programa hace una secuencia:
+
+* 🔴 Enciende el rojo (los otros apagados)
+* 🟢 Luego enciende el verde
+* 🟡 Luego el amarillo
+* 🔁 Y repite el ciclo
+
+Todo esto se controla con tiempos usando delay().
+
+
+
