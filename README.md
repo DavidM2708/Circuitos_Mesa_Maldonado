@@ -114,3 +114,5 @@ porque verde hace NOT de A.
 * prende con cualquiera.
 * verde = NOT A
 * depende solo de A.
+
+  # 2. COMPUERTAS LOGICAS:
